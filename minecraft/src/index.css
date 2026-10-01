@@ -1,0 +1,172 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Inter', sans-serif;
+  user-select: none;
+}
+
+#game-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#crosshair::before,
+#crosshair::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  mix-blend-mode: difference;
+}
+
+#crosshair::before {
+  top: 9px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+}
+
+#crosshair::after {
+  top: 0;
+  left: 9px;
+  width: 2px;
+  height: 20px;
+}
+
+#ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#hud {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.slot {
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #555;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  transition: all 0.1s;
+}
+
+.slot.active {
+  border-color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.slot-item {
+  width: 32px;
+  height: 32px;
+  background-size: cover;
+  image-rendering: pixelated;
+}
+
+#menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 25, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+#menu h1 {
+  font-size: 64px;
+  margin-bottom: 10px;
+  text-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+  letter-spacing: 2px;
+  font-weight: 800;
+  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#start-btn {
+  padding: 15px 40px;
+  font-size: 24px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+  color: white;
+  border: 3px solid #1b5e20;
+  border-radius: 4px;
+  margin: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.1s, filter 0.1s;
+}
+
+#start-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+#start-btn:active {
+  transform: translateY(2px);
+}
+
+.instructions {
+  background: rgba(0,0,0,0.5);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.instructions p {
+  margin: 5px 0;
+  color: #ccc;
+}
+
+#stats {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 14px;
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoxelCraft - Web GL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <div id="game-container"></div>
+    <div id="ui">
+      <div id="stats">FPS: 0<br>Chunks: 0<br>Pos: 0, 0, 0</div>
+      <div id="crosshair"></div>
+      <div id="hud">
+        <div class="slot active" id="slot-1"><div class="slot-item" style="background-color: #8B5A2B"></div></div>
+        <div class="slot" id="slot-2"><div class="slot-item" style="background-color: #808080"></div></div>
+        <div class="slot" id="slot-3"><div class="slot-item" style="background-color: #6B4226"></div></div>
+        <div class="slot" id="slot-4"><div class="slot-item" style="background-color: #228B22"></div></div>
+        <div class="slot" id="slot-5"></div>
+        <div class="slot" id="slot-6"></div>
+        <div class="slot" id="slot-7"></div>
+        <div class="slot" id="slot-8"></div>
+        <div class="slot" id="slot-9"></div>
+      </div>
+    </div>
+    <div id="menu">
+      <h1>VOXELCRAFT</h1>
+      <div class="instructions">
+        <p><b>WASD</b> to move</p>
+        <p><b>SPACE</b> to jump</p>
+        <p><b>SHIFT</b> to sprint</p>
+        <p><b>MOUSE</b> to look around</p>
+        <p><b>CLICK</b> to place blocks (Creative mode MVP)</p>
+      </div>
+      <button id="start-btn">Click to Start</button>
+      <p style="font-size: 12px; margin-top: 10px; color: #888;">Esc to pause</p>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
