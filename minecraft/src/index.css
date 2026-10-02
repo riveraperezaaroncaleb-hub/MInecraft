@@ -174,6 +174,38 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+#mode-select {
+  display: flex;
+  gap: 8px;
+  width: min(560px, calc(100vw - 32px));
+  margin: 12px 0 4px;
+}
+
+.mode-option {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mode-option.selected {
+  border-color: #81c784;
+  background: rgba(46, 125, 50, 0.42);
+}
+
+.mode-option span {
+  color: #ddd;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 #start-btn {
   padding: 15px 50px;
   font-size: 24px;
@@ -197,6 +229,17 @@ body {
 
 #start-btn:active {
   transform: translateY(2px);
+}
+
+@media (max-width: 520px) {
+  #mode-select {
+    flex-direction: column;
+    width: min(360px, calc(100vw - 32px));
+  }
+
+  .mode-option {
+    padding: 9px 12px;
+  }
 }
 
 .instructions {
@@ -235,4 +278,339 @@ body {
   opacity: 0;
   transition: opacity 0.2s;
   z-index: 15;
+}
+
+#touch-controls {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  display: none;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.touch-dpad {
+  position: absolute;
+  left: max(18px, env(safe-area-inset-left));
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.touch-dpad-row {
+  display: flex;
+  gap: 6px;
+}
+
+.touch-button {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  background: rgba(18, 24, 20, 0.68);
+  color: white;
+  font: 700 20px sans-serif;
+  touch-action: none;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.touch-button:active {
+  background: rgba(76, 175, 80, 0.82);
+  transform: scale(0.94);
+}
+
+#jump-button {
+  position: absolute;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: calc(104px + env(safe-area-inset-bottom));
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+#descend-button {
+  position: absolute;
+  right: max(34px, env(safe-area-inset-right));
+  bottom: calc(190px + env(safe-area-inset-bottom));
+  width: 58px;
+  height: 42px;
+  font-size: 11px;
+}
+
+#mount-button {
+  position: absolute;
+  left: 50%;
+  bottom: calc(112px + env(safe-area-inset-bottom));
+  width: 104px;
+  height: 44px;
+  display: none;
+  transform: translateX(-50%);
+  font-size: 12px;
+}
+
+#mount-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 112px;
+  display: none;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  background: #111c;
+  color: white;
+  font: 700 13px monospace;
+  white-space: nowrap;
+}
+
+body.mobile-device #touch-controls {
+  display: block;
+}
+
+#rotate-device {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  place-items: center;
+  padding: 24px;
+  background: #111a16;
+  color: #f4f1e8;
+  text-align: center;
+  font-family: monospace;
+}
+
+.rotate-card {
+  width: min(360px, 100%);
+}
+
+.rotate-card h2 {
+  margin: 0 0 12px;
+  color: #a9d477;
+  font-size: 24px;
+}
+
+.rotate-card p {
+  margin: 0 0 22px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#rotate-start {
+  padding: 12px 18px;
+  border: 2px solid #a9d477;
+  background: #263c2d;
+  color: #fff;
+  font: 700 14px monospace;
+  cursor: pointer;
+}
+
+@media (orientation: portrait) {
+  body.mobile-device #rotate-device {
+    display: grid;
+  }
+
+  body.mobile-device #touch-controls {
+    display: none;
+  }
+}
+
+#inventory-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.68);
+  color: #242424;
+  font-family: monospace;
+  text-shadow: none;
+  image-rendering: pixelated;
+}
+
+#inventory-ui,
+#inventory-ui * {
+  box-sizing: border-box;
+}
+
+.inventory-window {
+  width: min(900px, 100%);
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 14px;
+  border: 4px solid #f3f3f3;
+  background: #c6c6c6;
+  box-shadow: inset 4px 4px #777, inset -4px -4px #555, 0 12px 36px #000b;
+}
+
+.inventory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.inventory-header h2,
+.inventory-window h3 {
+  margin: 0;
+  color: #303030;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#inventory-close {
+  width: 34px;
+  height: 34px;
+  border: 2px solid #555;
+  background: #999;
+  color: #222;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.inventory-top {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.85fr) minmax(280px, 1.15fr);
+  gap: 12px;
+}
+
+.player-panel,
+.crafting-panel {
+  min-width: 0;
+  padding: 10px;
+  border: 2px solid #777;
+  background: #b3b3b3;
+  box-shadow: inset 2px 2px #eee, inset -2px -2px #888;
+}
+
+.player-panel {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  min-height: 190px;
+  gap: 8px;
+}
+
+.equipment-column {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+}
+
+.equipment-slot,
+.inventory-slot,
+.craft-result,
+.crafting-grid span {
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 2px solid #f3f3f3;
+  background: #8b8b8b;
+  box-shadow: inset 2px 2px #555, inset -2px -2px #ddd;
+}
+
+.equipment-slot {
+  width: 44px;
+  cursor: default;
+}
+
+.avatar-stage {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  background: linear-gradient(#7899ae 0 55%, #668345 55%);
+  border: 2px solid #777;
+}
+
+.pixel-avatar {
+  position: relative;
+  width: 76px;
+  height: 142px;
+  image-rendering: pixelated;
+}
+
+.pixel-avatar span { position: absolute; display: block; }
+.avatar-head { left: 24px; top: 4px; width: 32px; height: 32px; background: #9b694a; box-shadow: inset 0 0 0 4px #30251e; }
+.avatar-body { left: 19px; top: 38px; width: 42px; height: 48px; background: #168f8a; box-shadow: inset 0 -8px #096b66; }
+.avatar-arm { top: 40px; width: 14px; height: 47px; background: #9b694a; }
+.avatar-arm-left { left: 4px; }
+.avatar-arm-right { right: 4px; }
+.avatar-leg { top: 88px; width: 19px; height: 48px; background: #293e91; box-shadow: inset 0 -7px #202020; }
+.avatar-leg-left { left: 19px; }
+.avatar-leg-right { right: 16px; }
+
+.crafting-panel h3 { margin-bottom: 10px; }
+.crafting-workspace { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; }
+.crafting-grid { display: grid; grid-template-columns: repeat(2, 38px); gap: 3px; }
+.crafting-grid span { width: 38px; }
+.craft-arrow { color: #666; font-size: 30px; }
+.craft-result { display: grid; width: 42px; place-items: center; color: #555; font-size: 18px; }
+.recipe-list { display: grid; gap: 5px; }
+.recipe-list button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 39px;
+  padding: 4px 8px;
+  border: 2px solid #555;
+  background: #9a9a9a;
+  color: #202020;
+  text-align: left;
+  font: 700 12px monospace;
+  cursor: pointer;
+}
+.recipe-list button:hover:not(:disabled) { background: #b9b9b9; }
+.recipe-list button:disabled { color: #666; cursor: not-allowed; filter: grayscale(1); }
+.recipe-list small { display: block; margin-top: 2px; font-weight: 400; }
+.recipe-icon { width: 22px; height: 22px; flex: 0 0 22px; border: 2px solid #ddd; image-rendering: pixelated; }
+.recipe-wood { background: #80552e; }
+.recipe-sticks { background: linear-gradient(90deg, transparent 35%, #986936 35% 58%, transparent 58%), #bbb; }
+.recipe-sword { background: linear-gradient(135deg, transparent 35%, #aaa 35% 58%, transparent 58%), #684b30; }
+.recipe-pickaxe { background: linear-gradient(160deg, #999 0 32%, transparent 33%), #795548; }
+
+.storage-panel { margin-top: 12px; }
+.storage-panel h3 { margin: 0 0 7px; font-size: 14px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 3px; }
+.inventory-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 4px;
+  cursor: pointer;
+}
+.inventory-slot:hover { background-color: #aaa; }
+.inventory-slot.selected { outline: 2px solid #fff; outline-offset: -4px; }
+.inventory-slot[draggable="true"] { cursor: grab; }
+.inventory-slot.dragging { opacity: 0.45; }
+.inventory-slot.drag-target { background-color: #d0c77c; outline: 2px solid #fff; outline-offset: -3px; }
+.slot-sprite {
+  width: 70%;
+  height: 70%;
+  background-color: var(--item-color, transparent);
+  border: 2px solid #ffffff88;
+  box-shadow: inset -3px -3px #0004, inset 3px 3px #fff4;
+  image-rendering: pixelated;
+}
+.slot-count { position: absolute; right: 3px; bottom: 1px; color: white; font: 700 12px monospace; text-shadow: 1px 1px #111, -1px -1px #111; }
+.slot-empty .slot-sprite { visibility: hidden; }
+.quickbar-heading { margin-top: 10px !important; }
+.inventory-hotbar { max-width: 520px; }
+.inventory-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; color: #444; font-size: 11px; }
+
+@media (max-width: 620px) {
+  #inventory-ui { padding: 6px; }
+  .inventory-window { padding: 9px; max-height: calc(100dvh - 12px); }
+  .inventory-top { grid-template-columns: 1fr; }
+  .player-panel { min-height: 145px; }
+  .pixel-avatar { transform: scale(0.8); }
+  .inventory-grid { gap: 2px; }
+  .inventory-slot { padding: 2px; }
+  .slot-count { right: 1px; font-size: 10px; }
+  .recipe-list button { min-height: 34px; }
+  .inventory-footer { font-size: 10px; }
 }

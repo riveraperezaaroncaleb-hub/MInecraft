@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "rooms": {
+      "main": {
+        "players": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "auth != null && auth.uid == $uid",
+            ".validate": "newData.hasChildren(['x', 'y', 'z', 'r']) && newData.child('x').isNumber() && newData.child('y').isNumber() && newData.child('z').isNumber() && newData.child('r').isNumber()"
+          }
+        },
+        "blocks": {
+          ".read": "auth != null",
+          "$blockId": {
+            ".write": "auth != null",
+            ".validate": "newData.hasChildren(['x', 'y', 'z', 'updatedBy', 'removed']) && newData.child('x').isNumber() && newData.child('y').isNumber() && newData.child('z').isNumber() && newData.child('updatedBy').isString() && (newData.child('removed').val() == true || (newData.child('removed').val() == false && newData.hasChild('type') && (newData.child('type').val() == 'grass' || newData.child('type').val() == 'dirt' || newData.child('type').val() == 'stone' || newData.child('type').val() == 'wood' || newData.child('type').val() == 'leaves' || newData.child('type').val() == 'sand' || newData.child('type').val() == 'snow' || newData.child('type').val() == 'cactus' || newData.child('type').val() == 'torch' || newData.child('type').val() == 'bed')))"
+          }
+        }
+      }
+    }
+  }
+}

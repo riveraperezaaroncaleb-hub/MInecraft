@@ -1,16 +1,28 @@
-# React + Vite
+# VoxelCraft
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+El multijugador funciona desde el frontend con Firebase Realtime Database y autenticación anónima. No hace falta desplegar ni mantener un servidor propio.
 
-Currently, two official plugins are available:
+## Configurar Firebase
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Crea un proyecto Firebase y una aplicación web.
+2. En Authentication, habilita el proveedor Anonymous.
+3. En Authentication > Settings, agrega el dominio de Vercel a los dominios autorizados.
+4. Crea una Realtime Database y publica las reglas de `database.rules.json`.
+5. Copia `.env.example` a `.env.local` y completa los valores de Firebase.
 
-## React Compiler
+Las credenciales web de Firebase se incluyen en el cliente; las reglas de la base protegen los datos. No pongas secretos de servidor en variables `VITE_`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Publicar en Vercel
 
-## Expanding the ESLint configuration
+Importa el proyecto desde Git y configura como directorio raíz la carpeta que contiene este `package.json`. Vercel detecta Vite; el comando de compilación es `npm run build` y la carpeta de salida es `dist`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Agrega en las variables de entorno de Vercel los cinco valores `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_DATABASE_URL`, `VITE_FIREBASE_PROJECT_ID` y `VITE_FIREBASE_APP_ID`. Después de guardarlos, vuelve a desplegar.
+
+## Desarrollo
+
+```sh
+npm install
+npm run dev
+```
+
+Sin las variables de Firebase el juego funciona localmente, pero el estado multijugador aparecerá desconectado.

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -13,6 +13,7 @@
     <div id="ui">
       <div id="damage-overlay"></div>
       <div id="stats">FPS: 0<br>Pos: 0, 0, 0</div>
+      <div id="mount-hint"></div>
       <div id="crosshair"></div>
       
       <div id="mining-progress"><div id="mining-bar"></div></div>
@@ -34,9 +35,40 @@
         <div class="slot" id="slot-9"></div>
       </div>
     </div>
+
+    <div id="touch-controls" aria-label="Controles táctiles">
+      <div class="touch-dpad" aria-label="Movimiento">
+        <button class="touch-button" type="button" data-key="w" aria-label="Avanzar">▲</button>
+        <div class="touch-dpad-row">
+          <button class="touch-button" type="button" data-key="a" aria-label="Mover a la izquierda">◀</button>
+          <button class="touch-button" type="button" data-key="s" aria-label="Retroceder">▼</button>
+          <button class="touch-button" type="button" data-key="d" aria-label="Mover a la derecha">▶</button>
+        </div>
+      </div>
+      <button id="jump-button" class="touch-button" type="button" data-key="space" aria-label="Saltar">SALTAR</button>
+      <button id="descend-button" class="touch-button" type="button" data-key="descend" aria-label="Descender">BAJAR</button>
+      <button id="mount-button" class="touch-button" type="button" aria-label="Montar o desmontar ave">MONTAR</button>
+    </div>
+    <div id="rotate-device" role="dialog" aria-modal="true" aria-labelledby="rotate-title">
+      <div class="rotate-card">
+        <h2 id="rotate-title">Juega en horizontal</h2>
+        <p>Gira el teléfono para ver el mundo y usar los controles.</p>
+        <button id="rotate-start" type="button">Usar horizontal</button>
+      </div>
+    </div>
     
     <div id="menu">
       <h1>VOXELCRAFT</h1>
+      <div id="mode-select" role="group" aria-label="Elige un modo de juego">
+        <button class="mode-option selected" type="button" data-mode="survival" aria-pressed="true">
+          <strong>Supervivencia</strong>
+          <span>Empiezas sin objetos. Recolecta para construir.</span>
+        </button>
+        <button class="mode-option" type="button" data-mode="creative" aria-pressed="false">
+          <strong>Creativo</strong>
+          <span>Todos los bloques y herramientas disponibles.</span>
+        </button>
+      </div>
       <div class="instructions">
         <p><b>WASD</b> para moverte</p>
         <p><b>ESPACIO</b> para saltar</p>
@@ -48,18 +80,63 @@
       <button id="start-btn">Jugar Ahora</button>
       <p style="font-size: 12px; margin-top: 10px; color: #aaa;">Presiona ESC para pausar el juego</p>
     </div>
-    <div id="inventory-ui" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.85); color:white; padding:20px; border:4px solid #555; z-index:100; font-family:sans-serif; min-width:400px; text-shadow: 2px 2px 0 #000;">
-        <h2 style="margin-top:0; border-bottom:2px solid #555; padding-bottom:10px;">Inventario</h2>
-        <div id="inv-list" style="margin-bottom:20px; font-size:18px; display:grid; grid-template-columns: 1fr 1fr; gap:10px;"></div>
-        
-        <h2 style="border-bottom:2px solid #555; padding-bottom:10px;">Mesa de Crafteo</h2>
-        <div id="craft-list" style="display:flex; flex-direction:column; gap:10px;">
-            <button id="craft-planks" style="padding:10px; background:#6d4c41; color:white; border:2px solid #3e2723; cursor:pointer; font-weight:bold;">Madera Refinada (1 Tronco -> 4 Tablones)</button>
-            <button id="craft-sticks" style="padding:10px; background:#8d6e63; color:white; border:2px solid #3e2723; cursor:pointer; font-weight:bold;">Palos (2 Tablones -> 4 Palos)</button>
-            <button id="craft-sword" style="padding:10px; background:#9e9e9e; color:white; border:2px solid #212121; cursor:pointer; font-weight:bold;">Espada de Piedra (2 Piedra, 1 Palo) [Daño +]</button>
-            <button id="craft-pickaxe" style="padding:10px; background:#757575; color:white; border:2px solid #212121; cursor:pointer; font-weight:bold;">Pico de Piedra (3 Piedra, 2 Palos) [Minería Rápida]</button>
+    <div id="inventory-ui" role="dialog" aria-modal="true" aria-labelledby="inventory-title">
+      <div class="inventory-window">
+        <header class="inventory-header">
+          <h2 id="inventory-title">Inventario</h2>
+          <button id="inventory-close" type="button" aria-label="Cerrar inventario">×</button>
+        </header>
+        <div class="inventory-top">
+          <section class="player-panel" aria-label="Personaje y equipo">
+            <div class="equipment-column">
+              <button class="equipment-slot" type="button" aria-label="Casco"></button>
+              <button class="equipment-slot" type="button" aria-label="Pechera"></button>
+              <button class="equipment-slot" type="button" aria-label="Pantalones"></button>
+              <button class="equipment-slot" type="button" aria-label="Botas"></button>
+            </div>
+            <div class="avatar-stage" aria-label="Vista del personaje">
+              <div class="pixel-avatar">
+                <span class="avatar-head"></span>
+                <span class="avatar-body"></span>
+                <span class="avatar-arm avatar-arm-left"></span>
+                <span class="avatar-arm avatar-arm-right"></span>
+                <span class="avatar-leg avatar-leg-left"></span>
+                <span class="avatar-leg avatar-leg-right"></span>
+              </div>
+            </div>
+          </section>
+          <section class="crafting-panel" aria-labelledby="crafting-title">
+            <h3 id="crafting-title">Fabricación</h3>
+            <div class="crafting-workspace">
+              <div class="crafting-grid" aria-label="Recetas 2 por 2">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <span class="craft-arrow" aria-hidden="true">→</span>
+              <div class="craft-result" aria-label="Resultado">?</div>
+            </div>
+            <div id="craft-list" class="recipe-list">
+              <button id="craft-torch" type="button"><span class="recipe-icon recipe-torch"></span><span>Antorcha <small>1 tronco + 1 palo</small></span></button>
+              <button id="craft-bed" type="button"><span class="recipe-icon recipe-bed"></span><span>Cama <small>3 tablones</small></span></button>
+              <button id="craft-planks" type="button"><span class="recipe-icon recipe-wood"></span><span>Tablones <small>1 tronco → 4</small></span></button>
+              <button id="craft-sticks" type="button"><span class="recipe-icon recipe-sticks"></span><span>Palos <small>2 tablones → 4</small></span></button>
+              <button id="craft-sword" type="button"><span class="recipe-icon recipe-sword"></span><span>Espada de piedra <small>2 piedra + 1 palo</small></span></button>
+              <button id="craft-shovel" type="button"><span class="recipe-icon recipe-shovel"></span><span>Pala de piedra <small>1 piedra + 2 palos</small></span></button>
+              <button id="craft-axe" type="button"><span class="recipe-icon recipe-axe"></span><span>Hacha de piedra <small>3 piedra + 2 palos</small></span></button>
+              <button id="craft-pickaxe" type="button"><span class="recipe-icon recipe-pickaxe"></span><span>Pico de piedra <small>3 piedra + 2 palos</small></span></button>
+            </div>
+          </section>
         </div>
-        <p style="text-align:center; margin-top:20px; font-size:12px; color:#aaa;">Presiona 'E' para salir. Tienes que minar bloques primero para craftear.</p>
+        <section class="storage-panel" aria-label="Objetos guardados">
+          <h3>Objetos</h3>
+          <div id="inv-list" class="inventory-grid" aria-label="Inventario, 27 espacios"></div>
+          <h3 class="quickbar-heading">Acceso rápido</h3>
+          <div id="inventory-hotbar" class="inventory-grid inventory-hotbar" aria-label="Barra rápida, 9 espacios"></div>
+        </section>
+        <footer class="inventory-footer">
+          <span>Arrastra los objetos para organizarlos o llevar bloques a la barra rápida</span>
+          <span>Tecla E para cerrar</span>
+        </footer>
+      </div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
